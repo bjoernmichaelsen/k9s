@@ -1,0 +1,51 @@
+FROM golang:1.13.6-buster AS builder
+RUN apt-get update
+RUN apt-get upgrade -y
+RUN apt-get install -y \
+    build-essential \
+    git 
+
+WORKDIR /k9s-src
+COPY go.mod go.sum Makefile ./
+COPY main.go ./k9s.go
+COPY internal lib
+COPY cmd cmd
+
+WORKDIR /build
+RUN mv /k9s-src/ k9s-src/
+RUN cp k9s-src/go.mod .
+RUN cp k9s-src/go.sum .
+RUN sed -i 's/^module.*/module k9sbuild/' go.mod
+RUN echo "replace (" >> go.mod && echo "github.com/derailed/k9s => ./k9s-src" >> go.mod && echo ")" >> go.mod
+RUN for f in $(find k9s-src -type f -name *.go); do sed -i 's/github.com\/derailed\/k9s\/internal/github.com\/derailed\/k9s\/lib/' $f; done
+RUN go build k9s-src/k9s.go
+
+
+FROM debian:buster-slim as debianbuilder
+RUN apt-get update
+RUN apt-get upgrade -y
+RUN apt-get install -y \
+    build-essential \
+    debhelper \
+    lintian
+WORKDIR /build
+COPY LICENSE .
+COPY README.md .
+COPY debian debian
+COPY --from=builder /build/k9s .
+RUN dpkg-buildpackage --no-sign
+WORKDIR /
+RUN lintian *.deb
+
+
+FROM debian:buster-slim as production
+COPY --from=debianbuilder *.deb /
+WORKDIR /
+RUN ls *.deb
+RUN dpkg-deb -c k9s_*.deb
+RUN dpkg --install k9s_*.deb
+# allow for:
+# docker build -t k9s-debian -f Dockerfile.debian .
+# docker run k9s-debian > k9s_0.12.0~dockerbuild1.deb
+#ENTRYPOINT [ "cat", "k9s_*.deb" ]
+ENTRYPOINT [ "/usr/bin/k9s" ]

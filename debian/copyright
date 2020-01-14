@@ -1,0 +1,7 @@
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: k9s
+Source: https://github.com/derailed/k9s
+
+Files: *
+Copyright: Copyright © 2019, Imhotep Software LLC <fernand@imhotep.io> All rights reserved.
+License: Proprietary

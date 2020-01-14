@@ -8,8 +8,6 @@ assets
 /execs
 /notes
 /skins
-README.md
-LICENSE
 cov.out
 /k9s
 .travis.yml

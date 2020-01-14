@@ -1,0 +1,20 @@
+Source: k9s
+Section: devel
+Priority: optional
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.6
+Maintainer: Bjoern Michaelsen <bjoern.michaelsen@libreoffice.org>
+Homepage: https://github.com/derailed/k9s
+Vcs-Browser: https://github.com/derailed/k9s
+Vcs-Git: https://github.com/derailed/k9s.git
+
+Package: k9s
+Architecture: any
+Built-Using:
+Depends: ${shlibs:Depends}
+Description: Kubernetes CLI to manage your clusters
+ K9s provides a curses based terminal UI to interact with your Kubernetes
+ clusters. The aim of this project is to make it easier to navigate, observe
+ and manage your applications in the wild. K9s continually watches Kubernetes
+ for changes and offers subsequent commands to interact with observed
+ Kubernetes resources.

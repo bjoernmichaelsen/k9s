@@ -1,0 +1,5 @@
+k9s (0.12.0~dockerbuild1) buster; urgency=medium
+
+  * minimal binary build in docker
+
+ -- Bjoern Michaelsen <bjoern.michaelsen@libreoffice.org>  Tue, 14 Jan 2020 21:17:14 +0100

@@ -1,0 +1,3 @@
+k9s binary: hardening-no-pie usr/bin/k9s
+k9s binary: binary-without-manpage usr/bin/k9s
+

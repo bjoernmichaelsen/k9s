@@ -32,6 +32,15 @@ K9s is available on Linux, OSX and Windows platforms.
    brew install derailed/k9s/k9s
    ```
 
+* As Debian/Ubuntu package
+
+   ```shell
+   docker build -t k9s-deb -f Dockerfile.debian .
+   docker run k9s-deb > k9s-${VERSION}.deb
+   sudo deb --install k9s-${VERSION}.deb
+   ```
+
+
 * Via [MacPorts](https://www.macports.org)
 
    ```shell
